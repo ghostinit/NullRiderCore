@@ -1,12 +1,5 @@
 //
 //  SwiftDataController.swift
-//  BasePackage
-//
-//  Created by Adam Lyon on 4/22/25.
-//
-
-//
-//  SwiftDataController.swift
 //  NullRiderCore
 //
 //  Created by Adam Lyon on 4/22/25.
