@@ -22,15 +22,15 @@ import SwiftData
 //}
 
 @Model
-final class UserLogBookmark {
-    var line: String                   // The raw log entry
-    var severity: LogLevel         // Severity at time of bookmark
-    var file: String                  // Source file (if known)
-    var function: String              // Function context
-    var lineNumber: Int               // Source code line (if known)
-    var taggedByUser: Bool            // Was this marked by user manually?
-    var savedAt: Date                 // Timestamp of when the bookmark was saved
-    var note: String?                 // Optional user note
+public final class UserLogBookmark {
+    public var line: String                   // The raw log entry
+    public var severity: LogLevel         // Severity at time of bookmark
+    public var file: String                  // Source file (if known)
+    public var function: String              // Function context
+    public var lineNumber: Int               // Source code line (if known)
+    public var taggedByUser: Bool            // Was this marked by user manually?
+    public var savedAt: Date                 // Timestamp of when the bookmark was saved
+    public var note: String?                 // Optional user note
 
     init(
         line: String,
@@ -54,7 +54,7 @@ final class UserLogBookmark {
 }
 
 extension UserLogBookmark {
-    static func addBookmark(
+    public static func addBookmark(
         line: String,
         severity: LogLevel,
         note: String? = nil,

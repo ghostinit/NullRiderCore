@@ -27,12 +27,12 @@
 import Foundation
 import SwiftData
 
-final class Logger: ObservableObject {
+public final class Logger: ObservableObject {
     static let shared = Logger()
     private let logQueue = DispatchQueue(label: "com.nullrider.logger", qos: .utility)
     private let fileURL: URL
     
-    var minimumLogLevel: LogLevel
+    public var minimumLogLevel: LogLevel
     let settings = AppSettingsManager()
     
     @Published private(set) var inMemoryLog: [String] = []
@@ -100,23 +100,23 @@ final class Logger: ObservableObject {
         
     }
     
-    func logDebug(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
+    public func logDebug(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .debug, function: function, file: file, line: line)
     }
 
-    func logInfo(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
+    public func logInfo(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .info, function: function, file: file, line: line)
     }
 
-    func logWarning(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
+    public func logWarning(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .warning, function: function, file: file, line: line)
     }
 
-    func logError(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
+    public func logError(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .error, function: function, file: file, line: line)
     }
 
-    func logCritical(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
+    public func logCritical(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .critical, function: function, file: file, line: line)
     }
 
@@ -136,14 +136,14 @@ final class Logger: ObservableObject {
     }
 }
 
-enum LogLevel: String, Comparable, CaseIterable, Codable {
+public enum LogLevel: String, Comparable, CaseIterable, Codable {
     case debug
     case info
     case warning
     case error
     case critical
 
-    static func < (lhs: LogLevel, rhs: LogLevel) -> Bool {
+    public static func < (lhs: LogLevel, rhs: LogLevel) -> Bool {
         return lhs.rank < rhs.rank
     }
 
@@ -157,7 +157,7 @@ enum LogLevel: String, Comparable, CaseIterable, Codable {
         }
     }
     
-    static func from(_ intValue: Int) -> LogLevel {
+    public static func from(_ intValue: Int) -> LogLevel {
         switch intValue {
         case 0: return .debug
         case 1: return .info

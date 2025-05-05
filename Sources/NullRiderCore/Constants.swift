@@ -6,7 +6,7 @@
 //
 import Foundation
 
-enum AppInfo {
+public enum AppInfo {
     static let name = "NullRiderCore"
     static let showDebugSettingsOptions = true
 }

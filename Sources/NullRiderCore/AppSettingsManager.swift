@@ -1,7 +1,7 @@
 import SwiftUI
 import Foundation
 
-class AppSettingsManager: ObservableObject {
+public class AppSettingsManager: ObservableObject {
     @AppStorage("hasSeenOnboarding") var hasSeenOnBoarding: Bool = false
     @AppStorage("isDarkModeEnabled") var isDarkModeEnabled: Bool = true
     

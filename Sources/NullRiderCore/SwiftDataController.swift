@@ -16,7 +16,7 @@ import Foundation
 import SwiftData
 
 @MainActor
-final class SwiftDataController: ObservableObject {
+public final class SwiftDataController: ObservableObject {
     static let shared = SwiftDataController()
 
     let container: ModelContainer

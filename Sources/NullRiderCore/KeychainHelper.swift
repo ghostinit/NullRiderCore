@@ -8,11 +8,11 @@
 import Foundation
 import Security
 
-final class KeychainHelper {
+public final class KeychainHelper {
     static let shared = KeychainHelper()
     private init() {}
 
-    func save(_ value: String, forKey key: String) -> Bool {
+    public func save(_ value: String, forKey key: String) -> Bool {
         guard let data = value.data(using: .utf8) else { return false }
 
         let query: [String: Any] = [
@@ -26,7 +26,7 @@ final class KeychainHelper {
         return status == errSecSuccess
     }
 
-    func read(forKey key: String) -> String? {
+    public func read(forKey key: String) -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key,
@@ -46,7 +46,7 @@ final class KeychainHelper {
         return value
     }
 
-    func delete(forKey key: String) -> Bool {
+    public func delete(forKey key: String) -> Bool {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key
@@ -56,7 +56,7 @@ final class KeychainHelper {
         return status == errSecSuccess
     }
 
-    func update(_ value: String, forKey key: String) -> Bool {
+    public func update(_ value: String, forKey key: String) -> Bool {
         guard let data = value.data(using: .utf8) else { return false }
 
         let query: [String: Any] = [
