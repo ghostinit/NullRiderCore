@@ -28,7 +28,7 @@ import Foundation
 import SwiftData
 
 public final class Logger: ObservableObject {
-    static let shared = Logger()
+    public static let shared = Logger()
     private let logQueue = DispatchQueue(label: "com.nullrider.logger", qos: .utility)
     private let fileURL: URL
     
