@@ -7,7 +7,7 @@ TARGET_DIR = "/Users/nullrider/Library/Mobile Documents/com~apple~CloudDocs/MyAp
 
 # ✏️ List of relative file paths (from SOURCE_DIR) to copy
 FILES_TO_COPY = [
-    "Core/AppSettingsManager/AppSettingsManager.swift",
+    #"Core/AppSettingsManager/AppSettingsManager.swift",
     "Core/FileStorageHelper/FileStorageHelper.swift",
     "Core/KeychainHelper/KeychainHelper.swift",
     "Core/LocalDatabase/SwiftDataController.swift",

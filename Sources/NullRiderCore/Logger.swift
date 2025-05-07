@@ -34,10 +34,13 @@ public final class Logger: @unchecked Sendable, ObservableObject {
     private let fileURL: URL
 
     /// The minimum log level required for messages to be stored
-    public var minimumLogLevel: LogLevel
+    public var minimumLogLevel: LogLevel    //Sets the minimum log level
+    var verboseLogging : Bool               //Prints to the debug screen
+    var useAllLogInformation : Bool         //Includes more source information in the log messages
+    
 
     /// Provides access to user-defined app settings
-    let settings = AppSettingsManager.shared
+    //let settings = AppSettingsManager.shared
 
     /// Live in-memory cache of recent logs (published for views)
     @Published private(set) var inMemoryLog: [String] = []
@@ -54,9 +57,25 @@ public final class Logger: @unchecked Sendable, ObservableObject {
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         self.fileURL = directory.appendingPathComponent(filename)
         
-        minimumLogLevel = LogLevel.from(settings.minimumLogLevel)
+        minimumLogLevel = LogLevel.info
+        verboseLogging = true
+        useAllLogInformation = false
     }
-
+    
+    func configureLogger(with config: LoggerConfiguration) {
+        self.verboseLogging = config.verboseLogging
+        self.useAllLogInformation = config.useAllLogInformation
+        self.minimumLogLevel = LogLevel.from(config.minimumLogLevel)
+    }
+    
+    func getCurrentConfig() -> LoggerConfiguration {
+        var currentConfig = LoggerConfiguration(
+            verboseLogging: self.verboseLogging,
+            useAllLogInformation: self.useAllLogInformation,
+            minimumLogLevel: self.minimumLogLevel.rank)
+        return currentConfig
+    }
+    
     /// Logs a message to file and memory (and console if enabled)
     /// - Parameters:
     ///   - message: The main log string
@@ -72,14 +91,14 @@ public final class Logger: @unchecked Sendable, ObservableObject {
         line: Int = #line
     ) {
         var callerInfo: String = ""
-        if settings.fullLoggingString {
+        if useAllLogInformation {
             callerInfo = "[\(file):\(line) \(function)]"
         } else {
             let fileName = file.components(separatedBy: "/").last ?? file
             callerInfo = "[\(fileName):\(line)]"
         }
 
-        if settings.verboseLogging {
+        if verboseLogging {
             let debugEntry = "[\(level.rawValue.uppercased())] \(callerInfo) \(message)"
             print(debugEntry)
         }
@@ -155,6 +174,12 @@ public final class Logger: @unchecked Sendable, ObservableObject {
     }
 }
 
+public struct LoggerConfiguration {
+    var verboseLogging : Bool       //Prints to the debug screen
+    var useAllLogInformation : Bool //Includes more source information in the log messages
+    var minimumLogLevel : Int       //Minimum log level
+}
+
 /// Describes the severity of a log entry
 public enum LogLevel: String, Comparable, CaseIterable, Codable {
     case debug
@@ -167,7 +192,7 @@ public enum LogLevel: String, Comparable, CaseIterable, Codable {
         return lhs.rank < rhs.rank
     }
 
-    private var rank: Int {
+    public var rank: Int {
         switch self {
         case .debug: return 0
         case .info: return 1
