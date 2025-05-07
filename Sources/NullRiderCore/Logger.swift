@@ -49,7 +49,7 @@ public final class Logger: @unchecked Sendable, ObservableObject {
     private init() {
         let today = Date()
         let formattedDate = DateFormatterHelper.formattedFileDate(from: today)
-        let filename = "\(AppInfo.name)_\(formattedDate).txt"
+        let filename = "\(formattedDate)_EVENT_LOG.txt"
 
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         self.fileURL = directory.appendingPathComponent(filename)
