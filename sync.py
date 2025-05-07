@@ -19,7 +19,7 @@ FILES_TO_COPY = [
     "Views/LogView.swift",
     "Views/LogBookmarkListView.swift",
     "UI/Components/PrimaryButton.swift",
-    "UI/Components/ThemedComponents.swift",
+    #"UI/Components/ThemedComponents.swift",
     "UI/Components/ToastManager.swift",
     "UI/Components/ToastOverlay.swift",
     "UI/Components/ToastView.swift"
