@@ -53,6 +53,7 @@ public final class Logger: @unchecked Sendable, ObservableObject {
 
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         self.fileURL = directory.appendingPathComponent(filename)
+        
         minimumLogLevel = LogLevel.from(settings.minimumLogLevel)
     }
 

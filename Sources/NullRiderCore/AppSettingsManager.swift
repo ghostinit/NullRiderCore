@@ -4,8 +4,8 @@ import Foundation
 /// A centralized manager for application-level user settings using `@AppStorage`.
 ///
 /// These settings are automatically persisted using UserDefaults and can be updated from anywhere in the app.
-@MainActor
-public class AppSettingsManager: ObservableObject {
+
+public class AppSettingsManager: @unchecked Sendable, ObservableObject {
     public static let shared = AppSettingsManager()
     /// Tracks whether the user has completed onboarding.
     @AppStorage("hasSeenOnboarding") public var hasSeenOnBoarding: Bool = false
