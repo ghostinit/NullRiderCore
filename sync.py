@@ -14,7 +14,7 @@ FILES_TO_COPY = [
     "Core/LocalDatabase/Models/UserLogBookmark.swift",
     "Core/Logger/Logger.swift",
     "Core/Utilities/DateFormatterHelper.swift",
-    "Core/Utilities/EnvironmentConfig.swift",
+    #"Core/Utilities/EnvironmentConfig.swift",
     #"Core/Constants.swift",
     "Views/LogView.swift",
     "Views/LogBookmarkListView.swift",
