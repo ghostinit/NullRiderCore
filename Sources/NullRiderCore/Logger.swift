@@ -4,53 +4,65 @@
 //
 //  Created by Adam Lyon on 4/22/25.
 //
-
-// Logger.swift
-// A thread-safe, hybrid logger for SwiftUI/macOS/iOS apps and CLI tools
-
 // TODO: Cache and reuse the timestamp formatter for better performance
 // TODO: Add option to log into a shared log file instead of daily files
 // TODO: Implement log file size limit + rotation strategy
 // TODO: Add support for remote logging (optional endpoint config)
 // TODO: Create a SwiftUI LogView for real-time in-app viewing
 // TODO: Consider enabling JSON log output for integration with tools like Logtail or Datadog
-//
-//  Logger.swift
-//  BasePackage
-//
-//  Created by Adam Lyon on 4/22/25.
-//
-
-// Logger.swift
-// A thread-safe, hybrid logger for SwiftUI/macOS/iOS apps and CLI tools
 
 import Foundation
 import SwiftData
 
+/// A thread-safe, multi-target logger for SwiftUI apps and CLI tools.
+///
+/// Logs are:
+/// - Printed to console (optional, based on AppSettingsManager.verboseLogging)
+/// - Stored to disk in daily files
+/// - Cached in memory (up to `maxLogLines` entries)
+///
+/// Logging can be filtered by log level and optionally enriched with caller context info.
 public final class Logger: @unchecked Sendable, ObservableObject {
 
+    /// Singleton instance for global access
     public static let shared = Logger()
+
+    /// Queue to perform disk logging off the main thread
     private let logQueue = DispatchQueue(label: "com.nullrider.logger", qos: .utility)
+
+    /// Path to the current log file (based on date)
     private let fileURL: URL
-    
+
+    /// The minimum log level required for messages to be stored
     public var minimumLogLevel: LogLevel
-    let settings = AppSettingsManager()
-    
+
+    /// Provides access to user-defined app settings
+    let settings = AppSettingsManager.shared
+
+    /// Live in-memory cache of recent logs (published for views)
     @Published private(set) var inMemoryLog: [String] = []
 
-    private let maxLogLines = 500  // Keep memory usage sane
+    /// Limit memory usage by truncating old logs
+    private let maxLogLines = 500
 
+    /// Sets up the logger file path and reads default settings
     private init() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let filename = "\(AppInfo.name)_\(formatter.string(from: Date())).txt"
+        let today = Date()
+        let formattedDate = DateFormatterHelper.formattedFileDate(from: today)
+        let filename = "\(AppInfo.name)_\(formattedDate).txt"
 
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         self.fileURL = directory.appendingPathComponent(filename)
         minimumLogLevel = LogLevel.from(settings.minimumLogLevel)
-        
     }
 
+    /// Logs a message to file and memory (and console if enabled)
+    /// - Parameters:
+    ///   - message: The main log string
+    ///   - level: Log severity (default: `.info`)
+    ///   - function: Auto-captured function context
+    ///   - file: Auto-captured source filename
+    ///   - line: Auto-captured line number
     func log(
         _ message: String,
         level: LogLevel = .info,
@@ -58,15 +70,15 @@ public final class Logger: @unchecked Sendable, ObservableObject {
         file: String = #fileID,
         line: Int = #line
     ) {
-        var callerInfo : String = ""
+        var callerInfo: String = ""
         if settings.fullLoggingString {
             callerInfo = "[\(file):\(line) \(function)]"
         } else {
             let fileName = file.components(separatedBy: "/").last ?? file
             callerInfo = "[\(fileName):\(line)]"
         }
-        
-        if settings.debugMode {
+
+        if settings.verboseLogging {
             let debugEntry = "[\(level.rawValue.uppercased())] \(callerInfo) \(message)"
             print(debugEntry)
         }
@@ -96,47 +108,53 @@ public final class Logger: @unchecked Sendable, ObservableObject {
                     self.inMemoryLog.removeFirst()
                 }
             }
-            
         }
-        
     }
-    
+
+    /// Logs a debug message
     public func logDebug(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .debug, function: function, file: file, line: line)
     }
 
+    /// Logs an info message
     public func logInfo(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .info, function: function, file: file, line: line)
     }
 
+    /// Logs a warning message
     public func logWarning(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .warning, function: function, file: file, line: line)
     }
 
+    /// Logs an error message
     public func logError(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .error, function: function, file: file, line: line)
     }
 
+    /// Logs a critical message
     public func logCritical(_ message: String, function: String = #function, file: String = #fileID, line: Int = #line) {
         log(message, level: .critical, function: function, file: file, line: line)
     }
 
-
+    /// Returns the current log file URL
     func getLogFileURL() -> URL {
         return fileURL
     }
 
+    /// Formats the current timestamp for log entries
     private static func timestamp() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.string(from: Date())
     }
-    
+
+    /// Clears the in-memory log buffer
     public func clearInMemoryLog() {
         self.inMemoryLog.removeAll()
     }
 }
 
+/// Describes the severity of a log entry
 public enum LogLevel: String, Comparable, CaseIterable, Codable {
     case debug
     case info
@@ -157,7 +175,8 @@ public enum LogLevel: String, Comparable, CaseIterable, Codable {
         case .critical: return 4
         }
     }
-    
+
+    /// Converts an integer value into a corresponding log level
     public static func from(_ intValue: Int) -> LogLevel {
         switch intValue {
         case 0: return .debug
@@ -169,4 +188,3 @@ public enum LogLevel: String, Comparable, CaseIterable, Codable {
         }
     }
 }
-

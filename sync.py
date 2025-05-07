@@ -8,23 +8,24 @@ TARGET_DIR = "/Users/nullrider/Library/Mobile Documents/com~apple~CloudDocs/MyAp
 # ✏️ List of relative file paths (from SOURCE_DIR) to copy
 FILES_TO_COPY = [
     "Core/AppSettingsManager/AppSettingsManager.swift",
-    # "Core/FileStorageHelp/FileStorageHelper.swift",
+    "Core/FileStorageHelper/FileStorageHelper.swift",
     "Core/KeychainHelper/KeychainHelper.swift",
     "Core/LocalDatabase/SwiftDataController.swift",
     "Core/LocalDatabase/Models/UserLogBookmark.swift",
     "Core/Logger/Logger.swift",
-    # "Core/Utilities/DateFormatterHelper.swift",
-    # "Core/Utilities/EnvironmentConfig.swift",
-    "Core/Constants.swift",
+    "Core/Utilities/DateFormatterHelper.swift",
+    "Core/Utilities/EnvironmentConfig.swift",
+    #"Core/Constants.swift",
     "Views/LogView.swift",
-    "Views/LogBookmarkListView.swift"
-    # "Logger.swift",
-    # "KeychainHelper.swift",
-    # "AppSettingsManager.swift",
-    # "Models/UserLogBookmark.swift",
-    # "Views/LogView.swift",
-    # "Views/LogBookmarkListView.swift",
-    # "Constants/AppInfo.swift",
+    "Views/LogBookmarkListView.swift",
+    "UI/Components/PrimaryButton.swift",
+    "UI/Components/ThemedComponents.swift",
+    "UI/Components/ToastManager.swift",
+    "UI/Components/ToastOverlay.swift",
+    "UI/Components/ToastView.swift"
+    #"Extensions/ViewModifiers.swift",
+    #"Theme/AppFont.swift",
+    #"UI/Components/ThemeManager.swift"
 ]
 
 def test_folder_paths():

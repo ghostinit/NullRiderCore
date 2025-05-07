@@ -13,26 +13,38 @@ import SwiftData
 // TODO: Define ErrorReport model (structured crash or error data)
 // TODO: Define SessionMetric model (app usage statistics)
 
-//enum LogSeverity: String, Codable, CaseIterable {
-//    case debug
-//    case info
-//    case warning
-//    case error
-//    case critical
-//}
-
+/// A data model representing a bookmarked log entry.
+///
+/// This model allows users or the system to persist interesting or important log lines
+/// for later review, complete with file, function, line number, severity, and optional notes.
 @Model
 public final class UserLogBookmark {
-    public var line: String                   // The raw log entry
-    public var severity: LogLevel         // Severity at time of bookmark
-    public var file: String                  // Source file (if known)
-    public var function: String              // Function context
-    public var lineNumber: Int               // Source code line (if known)
-    public var taggedByUser: Bool            // Was this marked by user manually?
-    public var savedAt: Date                 // Timestamp of when the bookmark was saved
-    public var note: String?                 // Optional user note
+    /// The raw log line content.
+    public var line: String
 
-    init(
+    /// Severity of the log at the time of bookmarking.
+    public var severity: LogLevel
+
+    /// The filename (e.g. HomeView.swift) where the log originated.
+    public var file: String
+
+    /// The function name context of the log (e.g. `loadUser()`).
+    public var function: String
+
+    /// The line number in the source file.
+    public var lineNumber: Int
+
+    /// Indicates whether the user manually tagged the log or it was programmatically bookmarked.
+    public var taggedByUser: Bool
+
+    /// Timestamp when the bookmark was saved.
+    public var savedAt: Date
+
+    /// Optional note or comment attached to the bookmark.
+    public var note: String?
+
+    /// Initializes a new bookmark.
+    public init(
         line: String,
         severity: LogLevel,
         file: String,
@@ -54,6 +66,16 @@ public final class UserLogBookmark {
 }
 
 extension UserLogBookmark {
+    /// Adds a new bookmark into the SwiftData model context.
+    ///
+    /// - Parameters:
+    ///   - line: The log message content.
+    ///   - severity: The severity level of the log.
+    ///   - note: Optional user note or comment.
+    ///   - context: The SwiftData context to insert the model into.
+    ///   - file: The source file (automatically captured).
+    ///   - function: The calling function name (automatically captured).
+    ///   - lineNumber: The source code line number (automatically captured).
     public static func addBookmark(
         line: String,
         severity: LogLevel,
@@ -74,4 +96,3 @@ extension UserLogBookmark {
         context.insert(bookmark)
     }
 }
-

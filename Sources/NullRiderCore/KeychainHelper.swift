@@ -8,10 +8,18 @@
 import Foundation
 import Security
 
+/// A thread-safe, singleton-based helper for securely saving, reading, updating, and deleting sensitive values in the iOS/macOS keychain.
 public final class KeychainHelper: @unchecked Sendable {
+    /// The shared global instance.
     static let shared = KeychainHelper()
     private init() {}
 
+    /// Saves a string value to the keychain.
+    /// If a value for the key already exists, it is overwritten.
+    /// - Parameters:
+    ///   - value: The string to store securely.
+    ///   - key: The key used to identify the stored item.
+    /// - Returns: `true` if the save succeeded.
     public func save(_ value: String, forKey key: String) -> Bool {
         guard let data = value.data(using: .utf8) else { return false }
 
@@ -26,6 +34,9 @@ public final class KeychainHelper: @unchecked Sendable {
         return status == errSecSuccess
     }
 
+    /// Reads a string value from the keychain.
+    /// - Parameter key: The key associated with the stored item.
+    /// - Returns: The stored string if it exists and can be decoded.
     public func read(forKey key: String) -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
@@ -46,6 +57,9 @@ public final class KeychainHelper: @unchecked Sendable {
         return value
     }
 
+    /// Deletes a stored value from the keychain.
+    /// - Parameter key: The key identifying the item to delete.
+    /// - Returns: `true` if deletion succeeded.
     public func delete(forKey key: String) -> Bool {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
@@ -56,6 +70,11 @@ public final class KeychainHelper: @unchecked Sendable {
         return status == errSecSuccess
     }
 
+    /// Updates an existing keychain item with a new value.
+    /// - Parameters:
+    ///   - value: The new string value.
+    ///   - key: The key identifying the item to update.
+    /// - Returns: `true` if the update succeeded.
     public func update(_ value: String, forKey key: String) -> Bool {
         guard let data = value.data(using: .utf8) else { return false }
 
