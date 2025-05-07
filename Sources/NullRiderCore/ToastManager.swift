@@ -8,7 +8,7 @@ private struct ToastRequest {
     let duration: Double
 }
 
-public class ToastManager: ObservableObject {
+public class ToastManager: @unchecked Sendable, ObservableObject {
     public static let shared = ToastManager()
 
     @Published public var message: String? = nil

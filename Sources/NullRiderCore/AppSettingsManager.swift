@@ -4,6 +4,7 @@ import Foundation
 /// A centralized manager for application-level user settings using `@AppStorage`.
 ///
 /// These settings are automatically persisted using UserDefaults and can be updated from anywhere in the app.
+@MainActor
 public class AppSettingsManager: ObservableObject {
     public static let shared = AppSettingsManager()
     /// Tracks whether the user has completed onboarding.
@@ -19,12 +20,12 @@ public class AppSettingsManager: ObservableObject {
     @AppStorage("verboseLogging") public var verboseLogging: Bool = true
     
     /// Current App Theme
-    @AppStorage("appTheme") public var appThemeRaw: String = AppTheme.system.rawValue
-
-    public var appTheme: AppTheme {
-        get { AppTheme(rawValue: appThemeRaw) ?? .system }
-        set { appThemeRaw = newValue.rawValue }
-    }
+//    @AppStorage("appTheme") public var appThemeRaw: String = AppTheme.system.rawValue
+//
+//    public var appTheme: AppTheme {
+//        get { AppTheme(rawValue: appThemeRaw) ?? .system }
+//        set { appThemeRaw = newValue.rawValue }
+//    }
 
     /// The minimum log level required for messages to appear in logs.
     ///
