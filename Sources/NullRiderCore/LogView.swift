@@ -60,6 +60,6 @@ private func color(for logLine: String) -> Color {
 
 struct LogView_Previews: PreviewProvider {
     static var previews: some View {
-        LogView()
+        LogView(injectToastOverlay: false)
     }
 }
