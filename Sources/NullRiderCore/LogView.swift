@@ -6,7 +6,6 @@ public struct LogView: View {
     public init() {}
     
     public var body: some View {
-    public var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 8) {
