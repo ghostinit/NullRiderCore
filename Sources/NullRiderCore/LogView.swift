@@ -3,7 +3,10 @@ import SwiftUI
 public struct LogView: View {
     @ObservedObject private var logger = Logger.shared
     
-    public init() {}
+    private var injectToastOverlay: Bool
+    public init(injectToastOverlay: Bool) {
+        self.injectToastOverlay = injectToastOverlay
+    }
     
     public var body: some View {
         NavigationStack {
@@ -27,7 +30,12 @@ public struct LogView: View {
             .toolbar {
                 Button("Clear") {
                     logger.clearInMemoryLog()
+                    ToastManager.shared.show(message: "In Memory Log Cleared", position: .top)
+
                 }
+            }
+            if injectToastOverlay {
+                ToastOverlay()
             }
         }
     }
