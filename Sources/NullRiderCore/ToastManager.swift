@@ -31,10 +31,8 @@ public class ToastManager: @unchecked Sendable, ObservableObject {
 
         if isShowingToast {
             queue.append(request)
-            print("Toast showing, appending to queue")
         } else {
             showNextToast(request)
-            print("Showing the toast right off")
         }
     }
 
@@ -50,15 +48,12 @@ public class ToastManager: @unchecked Sendable, ObservableObject {
             self.isShowingToast = false
 
             if !self.queue.isEmpty {
-                print("Toast Queue is not empty, pushing next toast")
                 let next = self.queue.removeFirst()
                 
                 // ⏳ Delay before showing next toast
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.showNextToast(next)
                 }
-            } else {
-                print("Toast Queue is empty")
             }
         }
     }
