@@ -175,9 +175,9 @@ public final class Logger: @unchecked Sendable, ObservableObject {
 }
 
 public struct LoggerConfiguration {
-    var verboseLogging : Bool       //Prints to the debug screen
-    var useAllLogInformation : Bool //Includes more source information in the log messages
-    var minimumLogLevel : Int       //Minimum log level
+    public var verboseLogging : Bool       //Prints to the debug screen
+    public var useAllLogInformation : Bool //Includes more source information in the log messages
+    public var minimumLogLevel : Int       //Minimum log level
 }
 
 /// Describes the severity of a log entry
