@@ -15,7 +15,7 @@ import SwiftData
 @MainActor
 public final class SwiftDataController: ObservableObject {
     /// The shared global instance of the controller.
-    static let shared = SwiftDataController()
+    public static let shared = SwiftDataController()
 
     /// The main SwiftData container used to manage the app's model context.
     public let container: ModelContainer

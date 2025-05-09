@@ -62,14 +62,14 @@ public final class Logger: @unchecked Sendable, ObservableObject {
         useAllLogInformation = false
     }
     
-    func configureLogger(with config: LoggerConfiguration) {
+    public func configureLogger(with config: LoggerConfiguration) {
         self.verboseLogging = config.verboseLogging
         self.useAllLogInformation = config.useAllLogInformation
         self.minimumLogLevel = LogLevel.from(config.minimumLogLevel)
     }
     
-    func getCurrentConfig() -> LoggerConfiguration {
-        var currentConfig = LoggerConfiguration(
+    public func getCurrentConfig() -> LoggerConfiguration {
+        let currentConfig = LoggerConfiguration(
             verboseLogging: self.verboseLogging,
             useAllLogInformation: self.useAllLogInformation,
             minimumLogLevel: self.minimumLogLevel.rank)
