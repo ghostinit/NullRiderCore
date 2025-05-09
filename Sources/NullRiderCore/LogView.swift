@@ -8,16 +8,20 @@ public struct LogView: View {
     public var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 8) {
-                    ForEach(logger.inMemoryLog.indices.reversed(), id: \.self) { index in
-                        Text(logger.inMemoryLog[index])
-                            .font(.system(.footnote, design: .monospaced))
-                            .foregroundColor(color(for: logger.inMemoryLog[index]))
-                            .padding(.horizontal)
-                        Spacer()
+                if logger.inMemoryLog.isNotEmpty {
+                    LazyVStack(alignment: .leading, spacing: 8) {
+                        ForEach(logger.inMemoryLog.indices.reversed(), id: \.self) { index in
+                            Text(logger.inMemoryLog[index])
+                                .font(.system(.footnote, design: .monospaced))
+                                .foregroundColor(color(for: logger.inMemoryLog[index]))
+                                .padding(.horizontal)
+                            Spacer()
+                        }
                     }
+                    .padding(.vertical)
+                } else {
+                    Text("No in memory logs to show")
                 }
-                .padding(.vertical)
             }
             .navigationTitle("Log Output")
             .toolbar {

@@ -8,11 +8,13 @@
 import SwiftUI
 import SwiftData
 
-struct LogBookmarkListView: View {
+public struct LogBookmarkListView: View {
     @Query(sort: [SortDescriptor(\UserLogBookmark.savedAt, order: .reverse)]) private var bookmarks: [UserLogBookmark]
     @Environment(\.modelContext) private var modelContext
-
-    var body: some View {
+    
+    public init() {}
+    
+    public var body: some View {
         List {
             ForEach(bookmarks) { bookmark in
                 VStack(alignment: .leading, spacing: 4) {
