@@ -1,9 +1,12 @@
 import SwiftUI
 
-struct LogView: View {
+public struct LogView: View {
     @ObservedObject private var logger = Logger.shared
-
-    var body: some View {
+    
+    public init() {}
+    
+    public var body: some View {
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 8) {
