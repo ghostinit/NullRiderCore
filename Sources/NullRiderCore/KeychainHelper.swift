@@ -11,7 +11,7 @@ import Security
 /// A thread-safe, singleton-based helper for securely saving, reading, updating, and deleting sensitive values in the iOS/macOS keychain.
 public final class KeychainHelper: @unchecked Sendable {
     /// The shared global instance.
-    static let shared = KeychainHelper()
+    public static let shared = KeychainHelper()
     private init() {}
 
     /// Saves a string value to the keychain.

@@ -3,7 +3,7 @@ import os
 
 # ✏️ Customize these paths
 SOURCE_DIR = "/Users/nullrider/Library/Mobile Documents/com~apple~CloudDocs/MyApps/NullRider/BasePackage/BasePackage/BasePackage"
-TARGET_DIR = "/Users/nullrider/Library/Mobile Documents/com~apple~CloudDocs/MyApps/NullRiderCore/Sources/NullRiderCore"
+TARGET_DIR = "'/Users/nullrider/Library/Mobile Documents/com~apple~CloudDocs/MyApps/NullRiderCore/Sources/NullRiderCore'"
 
 # ✏️ List of relative file paths (from SOURCE_DIR) to copy
 FILES_TO_COPY = [
